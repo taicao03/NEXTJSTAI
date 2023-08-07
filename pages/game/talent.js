@@ -43,7 +43,7 @@ const Talent = () => {
       <Navbar />
       <div>
       <div className="text-center flex justify-center mb-4">
-        <p className="font-semibold text-4xl">{talent?.total}</p>
+        <p className="font-semibold text-4xl">{talent?.total} 13123</p>
       </div>
       <div className="flex justify-center">
         <div className="dice me-6">

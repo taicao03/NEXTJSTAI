@@ -8,9 +8,13 @@ const talentSlice = createSlice({
       isFetching: false,
       error: false,
     },
+    history: {
+      data: null,
+      isFetching: false,
+      error: false,
+    },
   },
   reducers: {
-    //GET SHOP
     getTalentStart: (state) => {
       state.talents.isFetching = true;
     },
@@ -23,10 +27,28 @@ const talentSlice = createSlice({
       state.talents.isFetching = false;
       state.talents.error = true;
     },
+    getHistoryStart: (state) => {
+      state.history.isFetching = true;
+    },
+    getHistorySuccess: (state, action) => {
+      state.history.isFetching = false;
+      state.history.data = action.payload;
+      state.history.error = false;
+    },
+    getHistoryFailed: (state) => {
+      state.history.isFetching = false;
+      state.history.error = true;
+    },
   },
 });
 
-export const { getTalentStart, getTalentSuccess, getTalentFailed } =
-  talentSlice.actions;
+export const {
+  getTalentStart,
+  getTalentSuccess,
+  getTalentFailed,
+  getHistoryStart,
+  getHistorySuccess,
+  getHistoryFailed,
+} = talentSlice.actions;
 
 export default talentSlice.reducer;

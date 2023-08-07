@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import { getTalent } from "../../redux/apiReq/index";
+import { getTalent, getHistoryTailent } from "../../redux/apiReq/index";
 import Navbar from "../../src/components/navbar";
 // import styles from "./talent.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const Talent = () => {
   const talent = useSelector((state) => state?.talent?.talents?.talent);
+  const history = useSelector((state) => state);
+
+  console.log("2131", history);
   const sideUi = [
     { name: "one" },
     { name: "two" },
@@ -16,21 +19,45 @@ const Talent = () => {
   ];
   console.log(talent);
   const dispatch = useDispatch();
-  const handleFetchData = () => {
-    getTalent(talent, dispatch);
+
+  const handleFetchData = (getDataFunc, talentData) => {
+    getDataFunc(talentData, dispatch);
   };
 
   useEffect(() => {
-    handleFetchData();
+    handleFetchData(getTalent, talent);
+    handleFetchData(getHistoryTailent, history);
   }, [dispatch]);
 
   return (
     <>
       <Navbar />
-      <div className="dice">
-        <div className="side one">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="dot"></div>
+      <div className="flex">
+        <div className="dice me-6">
+          {sideUi.map((side) => (
+            <div key={side.name} className={`side side-${side.name}`}>
+              {Array.from({ length: talent?.diceOne }, (_, index) => (
+                <div key={index} className="dot"></div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="dice me-6">
+          {sideUi.map((side) => (
+            <div key={side.name} className={`side side-${side.name}`}>
+              {Array.from({ length: talent?.diceTwo }, (_, index) => (
+                <div key={index} className="dot"></div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="dice me-6">
+          {sideUi.map((side) => (
+            <div key={side.name} className={`side side-${side.name}`}>
+              {Array.from({ length: talent?.diceThree }, (_, index) => (
+                <div key={index} className="dot"></div>
+              ))}
+            </div>
           ))}
         </div>
       </div>

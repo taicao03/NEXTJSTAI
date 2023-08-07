@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { getTalent, getHistoryTailent } from "../../redux/apiReq/index";
 import Navbar from "../../src/components/navbar";
-// import styles from "./talent.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const Talent = () => {
   const talent = useSelector((state) => state?.talent?.talents?.talent);
   const history = useSelector((state) => state?.talent?.history?.data);
+  const reversedHistory = [...history].reverse();
   const sideUi = [
     { name: "one" },
     { name: "two" },
@@ -43,7 +43,8 @@ const Talent = () => {
       <Navbar />
       <div>
       <div className="text-center flex justify-center mb-4">
-        <p className="font-semibold text-4xl">{talent?.total} 13123</p>
+        <p className="font-semibold text-4xl">{talent?.total}</p>
+        <p className="font-semibold text-4xl">{talent?.result === true ? 'Tài' : 'Xỉu'}</p>
       </div>
       <div className="flex justify-center">
         <div className="dice me-6">
@@ -76,7 +77,7 @@ const Talent = () => {
       </div>
 
       <div className="flex justify-center mt-4">
-      {history.map((item,index) => {
+      {reversedHistory.map((item,index) => {
         return (
           <div className="history" key={index}>
               <p className={item?.result === true ? "tai":"xiu"}>{item?.result === true ? "Tài":"Xỉu"}</p>

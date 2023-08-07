@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Talent = () => {
   const talent = useSelector((state) => state?.talent?.talents?.talent);
-  const history = useSelector((state) => state);
-
-  console.log("2131", history);
+  const history = useSelector((state) => state?.talent?.history?.data);
   const sideUi = [
     { name: "one" },
     { name: "two" },
@@ -17,7 +15,6 @@ const Talent = () => {
     { name: "five" },
     { name: "onsixe" },
   ];
-  console.log(talent);
   const dispatch = useDispatch();
 
   const handleFetchData = (getDataFunc, talentData) => {
@@ -25,14 +22,30 @@ const Talent = () => {
   };
 
   useEffect(() => {
+
+    const talentInterval = setInterval(() => {
     handleFetchData(getTalent, talent);
-    handleFetchData(getHistoryTailent, history);
+    }, 60 * 1000);
+
+    const historyInterval = setInterval(() => {
+      handleFetchData(getHistoryTailent, history);
+   }, 60 * 1000);
+
+
+    return () => {
+      clearInterval(talentInterval);
+      clearInterval(historyInterval);
+    };
   }, [dispatch]);
 
   return (
     <>
       <Navbar />
-      <div className="flex">
+      <div>
+      <div className="text-center flex justify-center mb-4">
+        <p className="font-semibold text-4xl">{talent?.total}</p>
+      </div>
+      <div className="flex justify-center">
         <div className="dice me-6">
           {sideUi.map((side) => (
             <div key={side.name} className={`side side-${side.name}`}>
@@ -62,9 +75,18 @@ const Talent = () => {
         </div>
       </div>
 
-      <div className="text-center lg:flex lg:items-center">
-        <p>{talent?.total}</p>
+      <div className="flex justify-center mt-4">
+      {history.map((item,index) => {
+        return (
+          <div className="history" key={index}>
+              <p className={item?.result === true ? "tai":"xiu"}>{item?.result === true ? "Tài":"Xỉu"}</p>
+          </div>
+        );
+      })}
+    
       </div>
+      </div>
+      
     </>
   );
 };

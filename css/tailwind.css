@@ -1,3 +1,5 @@
+/** @format */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,29 @@
   html,
   body {
     @apply dark:bg-trueGray-900;
+  }
+
+  .history {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    margin: 0 5px;
+  }
+  .history .xiu {
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 5px;
+    border-radius: 50px;
+  }
+  .history .tai {
+    background-color: green;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 10px;
+    border-radius: 50px;
   }
   .dice {
     width: 100px;

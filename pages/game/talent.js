@@ -7,6 +7,7 @@ const Talent = () => {
   const talent = useSelector((state) => state?.talent?.talents?.talent);
   const history = useSelector((state) => state?.talent?.history?.data || []);
   const reversedHistory = [...history].reverse();
+
   const sideUi = [
     { name: "one" },
     { name: "two" },
@@ -39,7 +40,7 @@ const Talent = () => {
   return (
     <>
       <Navbar />
-      <div>
+      {/* <div>
         <div className="text-center flex justify-center mb-4">
           <p className="font-semibold text-4xl">{talent?.total}</p>
           <p className="font-semibold text-4xl">
@@ -87,7 +88,7 @@ const Talent = () => {
             );
           })}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

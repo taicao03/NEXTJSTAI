@@ -5,11 +5,13 @@ import Postro from "../../src/components/three/postro";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/apiRequest";
+import { toast } from "react-toastify";
+import React, { useState } from "react";
 
-export default function Login() {
+export default function SignUp() {
   const dispatch = useDispatch();
   const router = useRouter();
-
+  const [error, setError] = useState("");
   const formik = useFormik({
     initialValues: { userName: "", password: "" },
     validationSchema: Yup.object({
@@ -21,9 +23,14 @@ export default function Login() {
         .min(8, "Nhập lớn hơn 8 kí tự"),
       password: Yup.string().required("Vui lòng nhập"),
     }),
-    onSubmit: (values) => {
-      registerUser(values, dispatch);
-      router.push("/");
+    onSubmit: async (values) => {
+      try {
+        await registerUser(values, dispatch);
+        router.push("/");
+      } catch (error) {
+        console.log(error);
+        setError(error?.message);
+      }
     },
   });
 
@@ -41,6 +48,7 @@ export default function Login() {
                 <p className="mt-2 text-gray-600">
                   Please sign in to your account.
                 </p>
+                <p>{error}</p>
               </div>
               <form onSubmit={formik.handleSubmit} className="mt-8 space-y-6">
                 <div>

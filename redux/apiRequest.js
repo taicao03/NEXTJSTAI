@@ -41,6 +41,7 @@ export const registerUser = async (user, dispatch) => {
     dispatch(registerSuccess(res.data));
   } catch (err) {
     dispatch(registerFailed());
+    throw err;
   }
 };
 

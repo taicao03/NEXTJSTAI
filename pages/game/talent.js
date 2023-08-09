@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { getTalent, getHistoryTailent } from "../../redux/apiReq/index";
+import { getTalent, getHistoryTailent ,betTalent } from "../../redux/apiReq/index";
 import Navbar from "../../src/components/navbar";
 import { useDispatch, useSelector } from "react-redux";
 
 const Talent = () => {
   const talent = useSelector((state) => state?.talent?.talents?.talent);
   const history = useSelector((state) => state?.talent?.history?.data || []);
+  const dispatch = useDispatch();
+
   const reversedHistory = [...history].reverse();
   const sideUi = [
     { name: "one" },
@@ -15,19 +17,18 @@ const Talent = () => {
     { name: "five" },
     { name: "onsixe" },
   ];
-  const dispatch = useDispatch();
 
-  const handleFetchData = (getDataFunc, talentData) => {
-    getDataFunc(talentData, dispatch);
+  const handleFetchData = (getDataFunc) => {
+    getDataFunc(dispatch);
   };
 
   useEffect(() => {
     const talentInterval = setInterval(() => {
-      handleFetchData(getTalent, talent);
+      handleFetchData(getTalent);
     }, 60 * 1000);
 
     const historyInterval = setInterval(() => {
-      handleFetchData(getHistoryTailent, history);
+      handleFetchData(getHistoryTailent);
     }, 60 * 1000);
 
     return () => {
@@ -35,6 +36,15 @@ const Talent = () => {
       clearInterval(historyInterval);
     };
   }, [dispatch]);
+
+  const handleBetTalent = () => {
+    const postData = {
+      userId:"64d1fe7f3396d08bef7b5857",
+      bet:true,
+      coin:2000
+    };
+    betTalent(postData, dispatch);
+  };
 
   return (
     <>
@@ -88,6 +98,9 @@ const Talent = () => {
           })}
         </div>
       </div>
+
+      <button onClick={handleBetTalent}>Gửi POST Request</button>
+
     </>
   );
 };

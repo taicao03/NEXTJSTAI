@@ -13,6 +13,12 @@ const talentSlice = createSlice({
       isFetching: false,
       error: false,
     },
+    bet: {  
+      data: null,
+      isFetching: false,
+      error: false,
+    }
+   
   },
   reducers: {
     getTalentStart: (state) => {
@@ -39,6 +45,20 @@ const talentSlice = createSlice({
       state.history.isFetching = false;
       state.history.error = true;
     },
+    betTalentStart : (state) => {
+      state.bet.isFetching = true;
+      
+    },
+    betTalentSuccess : (state,action) => { 
+      console.log(action.payload);
+      state.bet.isFetching = false;
+      state.bet.data = action.payload;
+      state.bet.error = false;
+    },
+    betTalentFailed : (state) => { 
+      state.bet.isFetching = false;
+      state.bet.error = true;
+    }
   },
 });
 
@@ -49,6 +69,9 @@ export const {
   getHistoryStart,
   getHistorySuccess,
   getHistoryFailed,
+  betTalentStart,
+  betTalentSuccess,
+  betTalentFailed
 } = talentSlice.actions;
 
 export default talentSlice.reducer;

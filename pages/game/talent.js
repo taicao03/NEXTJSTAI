@@ -3,8 +3,10 @@ import {
   getTalent,
   getHistoryTailent,
   betTalent,
+  getHistoryBet
 } from "../../redux/apiReq/index";
 import Navbar from "../../src/components/navbar";
+import ChartHistoryBet from "../../src/components/chart/talent/index";
 import { useDispatch, useSelector } from "react-redux";
 
 const Talent = () => {
@@ -15,6 +17,8 @@ const Talent = () => {
   const talent = useSelector((state) => state?.talent?.talents?.talent);
   const dispatch = useDispatch();
   const [history, setHistory] = useState([]);
+  const [historyBet, setHistoryBet] = useState([]);
+
   const reversedHistory = [...history].reverse();
   const sideUi = [
     { name: "one" },
@@ -42,8 +46,10 @@ const Talent = () => {
     const fetchData = async () => {
       try {
         const historyData = await getHistoryTailent();
-        setHistory(historyData);
         const talentData = await getTalent(dispatch);
+        const historyBet = await getHistoryBet(userId);
+        setHistoryBet(historyBet)
+        setHistory(historyData);
       } catch (error) {
         console.error("Error fetching history data:", error);
       }
@@ -113,6 +119,9 @@ const Talent = () => {
         <div className="flex justify-center btn-bet">
           <button onClick={handleBetTalent}>Chọn</button>
         </div>
+      </div>
+      <div className="w-full h-400">
+      <ChartHistoryBet data={historyBet}/>
       </div>
     </>
   );

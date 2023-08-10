@@ -21,8 +21,19 @@ export const getHistoryTailent = async () => {
   try {
     const res = await axios.get(`${BASEURL}/v1/talent/history-talent`);
     return res.data;
-  } catch (err) {}
+  } catch (err) {
+    console.error(err);
+  }
 };
+
+export const getHistoryBet = async (id) => {
+try {
+  const res = await axios.get(`${BASEURL}/v1/user/history-bet/${id}`);
+  return res.data
+} catch (error) {
+  console.error(err);
+}
+}
 
 export const betTalent = async (response) => {
   try {

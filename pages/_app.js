@@ -4,7 +4,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { useEffect } from "react";
 import { store, persistor } from "../redux/store";
 
-import "../css/tailwind.css";
+import "../css/tailwind.scss";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {

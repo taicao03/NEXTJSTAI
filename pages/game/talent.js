@@ -1,13 +1,20 @@
-import { useEffect } from "react";
-import { getTalent, getHistoryTailent ,betTalent } from "../../redux/apiReq/index";
+import { useEffect, useState } from "react";
+import {
+  getTalent,
+  getHistoryTailent,
+  betTalent,
+} from "../../redux/apiReq/index";
 import Navbar from "../../src/components/navbar";
 import { useDispatch, useSelector } from "react-redux";
 
 const Talent = () => {
-  const talent = useSelector((state) => state?.talent?.talents?.talent);
-  const history = useSelector((state) => state?.talent?.history?.data || []);
-  const dispatch = useDispatch();
+  const userId = useSelector(
+    (state) => state?.auth?.login?.currentUser?.others?._id
+  );
 
+  const talent = useSelector((state) => state?.talent?.talents?.talent);
+  const dispatch = useDispatch();
+  const [history, setHistory] = useState([]);
   const reversedHistory = [...history].reverse();
   const sideUi = [
     { name: "one" },
@@ -22,38 +29,40 @@ const Talent = () => {
     getDataFunc(dispatch);
   };
 
-  useEffect(() => {
-    const talentInterval = setInterval(() => {
-      handleFetchData(getTalent);
-    }, 60 * 1000);
-
-    const historyInterval = setInterval(() => {
-      handleFetchData(getHistoryTailent);
-    }, 60 * 1000);
-
-    return () => {
-      clearInterval(talentInterval);
-      clearInterval(historyInterval);
-    };
-  }, [dispatch]);
-
   const handleBetTalent = () => {
     const postData = {
-      userId:"64d1fe7f3396d08bef7b5857",
-      bet:true,
-      coin:2000
+      userId: userId,
+      bet: true,
+      coin: 2000,
     };
-    betTalent(postData, dispatch);
+    betTalent(postData);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const historyData = await getHistoryTailent();
+        setHistory(historyData);
+        const talentData = await getTalent(dispatch);
+      } catch (error) {
+        console.error("Error fetching history data:", error);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
       <Navbar />
-      <div>
+      <div className="talent-content">
         <div className="text-center flex justify-center mb-4">
           <p className="font-semibold text-4xl">{talent?.total}</p>
           <p className="font-semibold text-4xl">
-            {talent?.result === true ? "Tài" : "Xỉu"}
+            {/* {talent?.result === true ? "Tài" : "Xỉu"} */}
           </p>
         </div>
         <div className="flex justify-center">
@@ -89,18 +98,22 @@ const Talent = () => {
         <div className="flex justify-center mt-4">
           {reversedHistory.map((item, index) => {
             return (
-              <div className="history" key={index}>
+              <div
+                className={`history ${item?.result === true ? "tai" : "xiu"}`}
+                key={index}
+              >
                 <p className={item?.result === true ? "tai" : "xiu"}>
-                  {item?.result === true ? "Tài" : "Xỉu"}
+                  {/* {item?.total} */}
                 </p>
               </div>
             );
           })}
         </div>
+
+        <div className="flex justify-center btn-bet">
+          <button onClick={handleBetTalent}>Chọn</button>
+        </div>
       </div>
-
-      <button onClick={handleBetTalent}>Gửi POST Request</button>
-
     </>
   );
 };

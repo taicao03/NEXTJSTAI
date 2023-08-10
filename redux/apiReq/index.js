@@ -5,15 +5,9 @@ import {
   getTalentStart,
   getTalentSuccess,
   getTalentFailed,
-  getHistoryFailed,
-  getHistorySuccess,
-  getHistoryStart,
-  betTalentStart,
-  betTalentSuccess,
-  betTalentFailed
 } from "../tailentSlice";
 
-export const getTalent = async ( dispatch) => {
+export const getTalent = async (dispatch) => {
   dispatch(getTalentStart());
   try {
     const res = await axios.get(`${BASEURL}/v1/talent/talent `);
@@ -23,24 +17,18 @@ export const getTalent = async ( dispatch) => {
   }
 };
 
-export const getHistoryTailent = async (dispatch) => {
-  dispatch(getHistoryStart());
+export const getHistoryTailent = async () => {
   try {
-    const res = await axios.get(
-      `${BASEURL}/v1/talent/history-talent`
-    );
-    dispatch(getHistorySuccess(res.data));
-  } catch (err) {
-    dispatch(getHistoryFailed());
-  }
+    const res = await axios.get(`${BASEURL}/v1/talent/history-talent`);
+    return res.data;
+  } catch (err) {}
 };
 
-export const betTalent = async (response, dispatch) => {
-      dispatch(betTalentStart())
-    try {
-      const res = await axios.post(`${BASEURL}/v1/user/update-coin`,response)
-      dispatch(betTalentSuccess(res.data));
-    } catch (error) {
-      dispatch(betTalentFailed())
-    }
-}
+export const betTalent = async (response) => {
+  try {
+    const res = await axios.post(`${BASEURL}/v1/user/update-coin`, response);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

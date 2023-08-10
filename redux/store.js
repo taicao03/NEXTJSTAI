@@ -17,7 +17,7 @@ import talentReducer from "./tailentSlice";
 
 const persistConfig = {
   key: "root",
-  version: 1,
+  version: 2,
   storage,
 };
 const rootReducer = combineReducers({

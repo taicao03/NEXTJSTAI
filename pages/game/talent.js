@@ -3,7 +3,7 @@ import {
   getTalent,
   getHistoryTailent,
   betTalent,
-  getHistoryBet
+  getHistoryBet,
 } from "../../redux/apiReq/index";
 import Navbar from "../../src/components/navbar";
 import ChartHistoryBet from "../../src/components/chart/talent/index";
@@ -48,7 +48,7 @@ const Talent = () => {
         const historyData = await getHistoryTailent();
         const talentData = await getTalent(dispatch);
         const historyBet = await getHistoryBet(userId);
-        setHistoryBet(historyBet)
+        setHistoryBet(historyBet);
         setHistory(historyData);
       } catch (error) {
         console.error("Error fetching history data:", error);
@@ -120,8 +120,8 @@ const Talent = () => {
           <button onClick={handleBetTalent}>Chọn</button>
         </div>
       </div>
-      <div className="w-full h-400">
-      <ChartHistoryBet data={historyBet}/>
+      <div className="w-full h-600">
+        <ChartHistoryBet data={historyBet} />
       </div>
     </>
   );

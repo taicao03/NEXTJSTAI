@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import numeral from 'numeral';
 import {
   AreaChart,
   Area,
@@ -12,24 +13,31 @@ export default class ChartHistoryBet extends PureComponent {
   render() {
     const data = this.props.data;
 
-    const getIntroOfPage = (label) => {
-      if (label) {
-        return `Page A is about men's clothing`;
+    const processedData = data.reduce((result, current) => {
+      const date = new Date(current.createdAt).toLocaleDateString();
+      if (!result[date]) {
+        result[date] = { date, totalValue: 0 };
       }
-      return "";
-    };
+      result[date].totalValue += current.coinChange;
+      return result;
+    }, {});
+    
+    const processedChartData = Object.values(processedData);
 
     const CustomizedAxisTick = ({ x, y, payload }) => {
       const date = new Date(payload.value);
-      const formattedDate = `${date.getDate()}/${
-        date.getMonth() + 1
-      }/${date.getFullYear()}`;
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const formattedDate = `${month}/${day}/${year}`;
       return (
-        <text x={x} y={y} dy={16} textAnchor="middle">
-          {formattedDate}
-        </text>
+        <g transform={`translate(${x},${y})`}>
+          <text x={0} y={0} dy={16} textAnchor="middle" fill="#666">
+            {formattedDate}
+          </text>
+        </g>
       );
-    };
+    }
     const gradientOffset = () => {
       const dataMax = Math.max(...data.map((i) => i.coinChange));
       const dataMin = Math.min(...data.map((i) => i.coinChange));
@@ -43,28 +51,34 @@ export default class ChartHistoryBet extends PureComponent {
 
       return dataMax / (dataMax - dataMin);
     };
+    const off = gradientOffset();
+    const yAxisFormatter = (value) => {
+      return numeral(value).format('0.0a');
+    };
+
     const CustomTooltip = ({ active, payload, label }) => {
       if (active && payload && payload.length) {
+        const date = new Date(label);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        const formattedValue = numeral(payload[0].value).format('0,0a');
         return (
           <div className="custom-tooltip">
-            {/* <p className="label">{`${label} : ${payload[0].value}`}</p> */}
-            <p className="intro">{getIntroOfPage(label)}</p>
-            <p className="desc">Anything you want can be displayed here.</p>
+            <p className="label">{`Ngày: ${formattedDate}`}</p>
+            <p className="value">{`Coin: ${formattedValue}`}</p>
           </div>
         );
       }
 
-      return null;
+    return null;
     };
 
-    const off = gradientOffset();
-
+  
     return (
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           width={500}
           height={400}
-          data={data}
+          data={processedChartData}
           margin={{
             top: 10,
             right: 30,
@@ -74,11 +88,11 @@ export default class ChartHistoryBet extends PureComponent {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
-            dataKey="createdAt"
+            dataKey="date"
             padding={{ left: 30, right: 30 }}
             tick={<CustomizedAxisTick />}
           />
-          <YAxis />
+          <YAxis tickFormatter={yAxisFormatter} />
           <Tooltip content={<CustomTooltip />} />
           <defs>
             <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
@@ -88,7 +102,7 @@ export default class ChartHistoryBet extends PureComponent {
           </defs>
           <Area
             type="monotone"
-            dataKey="coinChange"
+            dataKey="totalValue"
             stroke="#000"
             fill="url(#splitColor)"
           />

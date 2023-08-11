@@ -66,10 +66,8 @@ const Talent = () => {
       <Navbar />
       <div className="talent-content">
         <div className="text-center flex justify-center mb-4">
-          <p className="font-semibold text-4xl">{talent?.total}</p>
-          <p className="font-semibold text-4xl">
-            {/* {talent?.result === true ? "Tài" : "Xỉu"} */}
-          </p>
+          <p className={`font-semibold text-4xl ${talent?.result === true ? 'text-black' :'text-white' }`}>{talent?.total}</p>
+        
         </div>
         <div className="flex justify-center">
           <div className="dice me-6">

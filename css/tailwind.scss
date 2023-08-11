@@ -17,16 +17,14 @@
     margin: 0 5px;
   }
   .history.xiu {
-    background-color: #000;
-    color: white;
+    background-color: #fff;
     font-size: 14px;
     font-weight: 500;
     padding: 0 5px;
     border-radius: 50px;
   }
   .history.tai {
-    background-color: #fff;
-    color: white;
+    background-color: #000;
     font-size: 14px;
     font-weight: 500;
     padding: 0 5px;
@@ -120,6 +118,13 @@
   .h-800 {
     height: 800px;
   }
+
+.custom-tooltip{
+  padding: 10px;
+  color: #ccff00  ;
+  font-weight: 600;
+}
+  
   /* @keyframes roll {
     0%,
     100% {

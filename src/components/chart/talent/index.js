@@ -1,14 +1,7 @@
 import React, { PureComponent } from "react";
 import numeral from 'numeral';
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 export default class ChartHistoryBet extends PureComponent {
   render() {
     const data = this.props.data;
@@ -75,6 +68,7 @@ export default class ChartHistoryBet extends PureComponent {
   
     return (
       <ResponsiveContainer width="100%" height="100%">
+      
         <AreaChart
           width={500}
           height={400}
@@ -93,19 +87,11 @@ export default class ChartHistoryBet extends PureComponent {
             tick={<CustomizedAxisTick />}
           />
           <YAxis tickFormatter={yAxisFormatter} />
+
           <Tooltip content={<CustomTooltip />} />
-          <defs>
-            <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-              <stop offset={off} stopColor="green" stopOpacity={1} />
-              <stop offset={off} stopColor="red" stopOpacity={1} />
-            </linearGradient>
-          </defs>
-          <Area
-            type="monotone"
-            dataKey="totalValue"
-            stroke="#000"
-            fill="url(#splitColor)"
-          />
+
+          <Area type="monotone" dataKey="totalValue" stroke="#8884d8" fill="#8884d8" fillOpacity={0.3} />
+         
         </AreaChart>
       </ResponsiveContainer>
     );

@@ -31,7 +31,7 @@ try {
   const res = await axios.get(`${BASEURL}/v1/user/history-bet/${id}`);
   return res.data
 } catch (error) {
-  console.error(err);
+  console.error(error);
 }
 }
 

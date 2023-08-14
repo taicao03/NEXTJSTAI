@@ -10,12 +10,13 @@ import {
 export const getTalent = async (dispatch) => {
   dispatch(getTalentStart());
   try {
-    const res = await axios.get(`${BASEURL}/v1/talent/talent `);
+    const res = await axios.get(`${BASEURL}/v1/talent/talent`);
     dispatch(getTalentSuccess(res.data));
   } catch (err) {
     dispatch(getTalentFailed());
   }
 };
+
 
 export const getHistoryTailent = async () => {
   try {
@@ -35,9 +36,19 @@ try {
 }
 }
 
+export const getTotalBetRound = async () => {
+try {
+  const res = await axios.get(`${BASEURL}/v1/talent/total-bet`);
+  return res.data
+} catch (error) {
+  console.log(error);
+}
+
+}
+
 export const betTalent = async (response) => {
   try {
-    const res = await axios.post(`${BASEURL}/v1/user/update-coin`, response);
+    const res = await axios.post(`${BASEURL}/v1/talent/update-coin`, response);
     return res.data;
   } catch (error) {
     console.log(error);

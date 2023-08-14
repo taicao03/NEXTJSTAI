@@ -50,13 +50,14 @@ const ModalHistoryBet = ({ isOpen, onRequestClose, data }) => {
         {formatDate(item?.createdAt)}
 
         </div>
-        <div className={`${item?.result === true ? 'text-black' : 'text-white'} font-semibold text-base text-center`}>
+        <div className={`font-semibold text-base text-center`}>
+        <span className='me-6'>Bạn đã chọn</span>
+        <span className={`${item?.bet === true ? 'text-black' : 'text-white'} `}>
         {item?.result === true ? 'Tài' : 'Xỉu'}
-
+        </span>
         </div>
         <div className={`${item?.bet === item?.result ?'text-green-600' : 'text-red-600'} font-semibold text-base text-end` }>
         {item?.coinChange}
-
         </div>
         </div>
         ))}

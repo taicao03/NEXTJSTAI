@@ -5,6 +5,7 @@ import {
   getHistoryTailent,
   betTalent,
   getHistoryBet,
+  getTotalBetRound
 } from "../../redux/apiReq/index";
 import 'animate.css';
 import Navbar from "../../src/components/navbar";
@@ -23,6 +24,7 @@ const Talent = () => {
   // useState
   const [history, setHistory] = useState([]);
   const [historyBet, setHistoryBet] = useState([]);
+  const [totalBet, settotalBet] = useState(0);
   const [buttonBet, setButtonBet] = useState(null);
   const [currentMessage, setCurrentMessage] = useState('');
   const [buttonBetValue, setButtonBetValue] = useState(null);
@@ -74,13 +76,13 @@ const Talent = () => {
   </div>
   );
 
-const messMammon = [
-  'Mại zô! Mại zô!',
-  'Hãy chọn xỉu tin tôi đi bạn êiii',
-  'Chọn tài 5M luôn nè bro',
-  'Xời , Tôi mà có tiền tôi ALLIN xỉu rồi á anh bạn',
-  'Nạp thêm nhiều coin để chơi đuê!'
-]
+  const messMammon = [
+    'Mại zô! Mại zô!',
+    'Hãy chọn xỉu tin tôi đi bạn êiii',
+    'Chọn tài 5M luôn nè bro',
+    'Xời , Tôi mà có tiền tôi ALLIN xỉu rồi á anh bạn',
+    'Nạp thêm nhiều coin để chơi đuê!'
+  ]
 
   const handleButtonClick = (number) => {
     setButtonBet(number);
@@ -154,6 +156,23 @@ const messMammon = [
   }, []);
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const getData = await getTotalBetRound();
+        settotalBet(getData)
+      } catch (error) {
+        console.log(error)
+        console.error("Error fetching history data:", error);
+      }
+    };
+   
+    fetchData();
+    const interval = setInterval(fetchData, 5*  1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   // Render giao dien
   return (
@@ -178,7 +197,9 @@ const messMammon = [
         <div className="img-gif-momom-2">
         <img src="https://danviet.mediacdn.vn/296231569849192448/2022/2/10/ngay-via-than-tai-2022-a-4-16444711407792053876352.gif" alt="Animated GIF" />
         </div>
-
+        <p className="text-4xl text-center">
+        {totalBet?.totalBothBetsAmount}
+        </p>
         <div className="text-center flex justify-center mb-4">
           <p className={`font-semibold text-4xl mt-8 ${talent?.result === true ? 'text-black' :'text-white' }`}>{talent?.total}</p>
         </div>

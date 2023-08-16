@@ -168,7 +168,7 @@ const Talent = () => {
     };
    
     fetchData();
-    const interval = setInterval(fetchData, 5*  1000);
+    const interval = setInterval(fetchData, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -197,7 +197,7 @@ const Talent = () => {
         <div className="img-gif-momom-2">
         <img src="https://danviet.mediacdn.vn/296231569849192448/2022/2/10/ngay-via-than-tai-2022-a-4-16444711407792053876352.gif" alt="Animated GIF" />
         </div>
-        <p className="text-4xl text-center">
+        <p className="text-4xl text-center animate__heartBeat">
         {totalBet?.totalBothBetsAmount}
         </p>
         <div className="text-center flex justify-center mb-4">
@@ -254,10 +254,10 @@ const Talent = () => {
 
       </div>
       <div className="flex justify-around">
-      <p className={`text-2xl ${buttonBetValue  === true?'animate__heartBeat ' :''}`}>{
+      <p className={`text-2xl ${buttonBetValue  === true?'animate__heartBeat' :''}`}>{
       buttonBetValue  === true? numeral(buttonBet).format('0,0')  || 0 : 0 
         }</p>
-      <p className={`text-2xl ${buttonBetValue  === false?'animate__heartBeat ' :''}`}>{
+      <p className={`text-2xl ${buttonBetValue  === false?'animate__heartBeat' :''}`}>{
        buttonBetValue  === false?numeral(buttonBet).format('0,0') || 0: 0 
         }</p>
       </div>
